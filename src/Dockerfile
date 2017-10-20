@@ -1,6 +1,6 @@
 FROM node:8
 
-EXPOSE 3000
+EXPOSE 3001
 
 RUN mkdir -p /usr/src/app
 

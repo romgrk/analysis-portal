@@ -4,28 +4,17 @@ const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-const pg = require('pg')
 
-const { query } = require('./helpers/database.js')
+const db = require('./database.js')
+const Samples = require('./models/samples.js')
+
 
 const app = express()
 
-/*
- * Setup SQL connection
- */
 
-const client = new pg.Client('postgres://postgres@172.17.0.1:9000/postgres')
-
-client.connect((err) => {
-  if (err)
-    throw err
-
-  query(client, 'SELECT * FROM samples').then(result => {
-    console.log(result.rows)
-  })
+db.query('SELECT * FROM samples').then(result => {
+  console.log(result.rows)
 })
-
-app.set('client', client)
 
 
 /*
@@ -53,11 +42,14 @@ app.use(express.static(path.join(__dirname, 'public')))
  * Routes
  */
 
-app.use('/api/sample', require('./routes/sample'))
+app.use('/api/samples', require('./routes/samples'))
 
 
 app.use('/', (req, res, next) => {
-  res.render('index', { title: 'Express' })
+  Samples.getAll()
+  .then(samples => {
+    res.render('index', { title: 'Analysis Portal', samples: samples })
+  })
 })
 
 

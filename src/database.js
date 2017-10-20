@@ -4,7 +4,17 @@
 
 const pg = require('pg')
 
-module.exports = { query, selectOne, selectAll }
+/*
+ * Setup SQL connection
+ */
+
+const client = new pg.Client('postgres://postgres@172.17.0.1:9000/postgres')
+
+client.connect((err) => {
+  if (err)
+    throw err
+})
+
 
 /**
  * Turns 'SELECT * FROM users WHERE id = @id', { id: 42 }
@@ -36,13 +46,9 @@ function interpolate(query, params) {
  * Perform a query using the client/request's app's client
  * @returns Promise
  */
-function query(req, q, params) {
+function query(q, params) {
   return new Promise((resolve, reject) => {
-    const client = req instanceof pg.Client ? req : req.app.get('client')
-
     const interpolated = interpolate(q, params)
-
-    console.log(interpolated)
 
     client.query(interpolated.query, interpolated.params, (err, results) => {
       if (err)
@@ -53,10 +59,13 @@ function query(req, q, params) {
   })
 }
 
-function selectOne(req, q, params, field) {
-  return query(req, q, params).then(result => field ? result.rows[0][field] : result.rows[0])
+function selectOne(q, params, field) {
+  return query(q, params).then(result => field ? result.rows[0][field] : result.rows[0])
 }
 
-function selectAll(req, q, params, field) {
-  return query(req, q, params).then(result => field ? result.rows.map(r => r[field]) : result.rows)
+function selectAll(q, params, field) {
+  return query(q, params).then(result => field ? result.rows.map(r => r[field]) : result.rows)
 }
+
+
+module.exports = { client, query, selectOne, selectAll }

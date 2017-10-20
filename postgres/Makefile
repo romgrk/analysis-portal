@@ -5,9 +5,9 @@
 
 all:
 	make build
-	make start
+	make run
 
-start:
+run:
 	docker run --name analysis-db --rm -p 9000:5432 -v $$(pwd)/data:/var/lib/postgresql/data analysis-db
 
 build:

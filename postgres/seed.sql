@@ -6,8 +6,10 @@
  */
 
 CREATE TABLE samples (
-    id varchar(60) primary key,
-    data jsonb
+    id       varchar(60) primary key,
+    created  timestamp   not null,
+    modified timestamp   not null,
+    data     jsonb
 );
 
 -- vim:et
