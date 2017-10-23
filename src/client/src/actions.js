@@ -8,6 +8,7 @@ import {
 import { normalizeSamples } from './models';
 
 export const SET_FILTER = 'SET_FILTER'
+export const CLEAR_FILTERS = 'CLEAR_FILTERS'
 export const SET_ORDER = 'SET_ORDER'
 export const SET_ORDER_DIRECTION = 'SET_ORDER_DIRECTION'
 
@@ -20,6 +21,12 @@ export function setFilter(which, value) {
     type: SET_FILTER,
     which,
     value
+  }
+}
+
+export function clearFilters() {
+  return {
+    type: CLEAR_FILTERS
   }
 }
 

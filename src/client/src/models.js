@@ -41,6 +41,10 @@ export function filterSamples(samples, filters) {
         && PROPERTIES.pipeline.selector(sample) !== filters.pipeline)
       return false
 
+    if (filters.user !== undefined
+        && PROPERTIES.user.selector(sample) !== filters.user)
+      return false
+
     return true
   })
 }

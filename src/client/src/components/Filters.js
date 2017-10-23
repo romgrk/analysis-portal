@@ -18,7 +18,7 @@ import cx from 'classname';
 import { compose, uniq } from 'ramda';
 
 import { PROPERTIES } from '../constants.js';
-import { setFilter } from '../actions.js';
+import { setFilter, clearFilters } from '../actions.js';
 
 const { keys } = Object
 
@@ -28,36 +28,71 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   setFilter: compose(dispatch, setFilter),
+  clearFilters: compose(dispatch, clearFilters),
 })
 
 class Filters extends Component {
   render() {
 
-    const { samples, filters, setFilter } = this.props
+    const { samples, filters, setFilter, clearFilters } = this.props
 
+    const userValues     = uniq(samples.map(PROPERTIES.user.selector))
     const pipelineValues = uniq(samples.map(PROPERTIES.pipeline.selector))
 
     return (
-      <div>
+      <div className='d-flex'>
 
-        <UncontrolledButtonDropdown className='dropdown--inline'>
-          <DropdownToggle caret>
-            { filters.pipeline || 'All' }
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem onClick={() => setFilter('pipeline', undefined)}>All</DropdownItem>
-            {
-              pipelineValues.map(value => {
-                return (
-                  <DropdownItem key={value}
-                    onClick={() => setFilter('pipeline', value)}>{ value }</DropdownItem>
-                )
-              })
-            }
+        <div className='flex-static'>
+          <span className='label'>Pipeline</span>
+          <UncontrolledButtonDropdown className='dropdown--inline'>
+            <DropdownToggle caret>
+              { filters.pipeline || 'All' }
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={() => setFilter('pipeline', undefined)}>All</DropdownItem>
+              {
+                pipelineValues.map(value => {
+                  return (
+                    <DropdownItem key={value}
+                      onClick={() => setFilter('pipeline', value)}>{ value }</DropdownItem>
+                  )
+                })
+              }
 
-          </DropdownMenu>
-        </UncontrolledButtonDropdown>
+            </DropdownMenu>
+          </UncontrolledButtonDropdown>
+        </div>
 
+        <span className='flex-static vertical-hr' />
+
+        <div className='flex-static'>
+          <span className='label'>User</span>
+          <UncontrolledButtonDropdown className='dropdown--inline'>
+            <DropdownToggle caret>
+              { filters.user || 'All' }
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={() => setFilter('user', undefined)}>All</DropdownItem>
+              {
+                userValues.map(value => {
+                  return (
+                    <DropdownItem key={value}
+                      onClick={() => setFilter('user', value)}>{ value }</DropdownItem>
+                  )
+                })
+              }
+
+            </DropdownMenu>
+          </UncontrolledButtonDropdown>
+        </div>
+
+        <div className='flex-fill' />
+
+        <div className='flex-static'>
+          <Button onClick={clearFilters}>
+            Clear Filters
+          </Button>
+        </div>
       </div>
     )
   }

@@ -83,6 +83,12 @@ class Samples extends Component {
 
     return (
       <div className='Samples'>
+        {
+          samples.length === 0 &&
+            <div className='Samples__empty text-message'>
+              No samples to display. Try removing some filters.
+            </div>
+        }
 
         {
           samples.map(sample => {
@@ -93,7 +99,7 @@ class Samples extends Component {
             return (
               <div key={sample.id} className='Sample'>
                 <div className='Sample__details box'>
-                  <div className='box__header'>{ sample.id }
+                  <div className='box__header'>{ sample.id } ({ sample.user + ')' }
                     <span className='box__badge'>
                       ({ humanReadableTime(sample.modified) + ')' }
                     </span>

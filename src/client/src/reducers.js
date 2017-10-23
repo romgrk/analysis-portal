@@ -4,6 +4,7 @@ import {
     REQUEST_SAMPLES
   , RECEIVE_SAMPLES
   , SET_FILTER
+  , CLEAR_FILTERS
   , SET_ORDER
   , SET_ORDER_DIRECTION
 } from './actions';
@@ -14,6 +15,9 @@ function uiReducer(state = createDefaultUI(), action, data) {
   switch (action.type) {
     case SET_FILTER: {
       return { ...state, filters: { ...state.filters, [action.which]: action.value } }
+    }
+    case CLEAR_FILTERS: {
+      return { ...state, filters: {} }
     }
     case SET_ORDER: {
       return { ...state, ordering: { ...state.ordering, property: action.property } }
