@@ -14,7 +14,7 @@ export default function smartSort(a, b) {
     return b.localeCompare(a)
 
   if (a instanceof Date && b instanceof Date)
-    b - a
+    return b - a
 
   return b - a
 }

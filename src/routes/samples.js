@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const Samples = require('../models/samples.js')
-const { okHandler, dataHandler, errorHandler } = require('../helpers/hanlders.js')
+const { okHandler, dataHandler, errorHandler } = require('../helpers/handlers.js')
 
 router.get('/:id', (req, res, next) => {
 
