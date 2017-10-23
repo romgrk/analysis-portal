@@ -87,7 +87,7 @@ class Samples extends Component {
       <div className='Samples'>
 
         {
-          samples.map(sample => {
+          sortedSamples.map(sample => {
 
             const generalInformation = sample.data.pipeline.general_information
             const pipelineName = sample.data.pipeline.name
