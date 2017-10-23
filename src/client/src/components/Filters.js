@@ -38,7 +38,7 @@ class Filters extends Component {
 
     const userValues     = uniq(samples.map(PROPERTIES.user.selector))
     const pipelineValues = uniq(samples.map(PROPERTIES.pipeline.selector))
-    const statusValues   = PROPERTIES.status.values
+    const statusOptions  = PROPERTIES.status.options
 
     return (
       <div className='d-flex'>
@@ -91,15 +91,15 @@ class Filters extends Component {
           <span className='label'>Status</span>
           <UncontrolledButtonDropdown className='dropdown--inline'>
             <DropdownToggle caret>
-              { titleCase(filters.status) || 'All' }
+              { (filters.status && titleCase(filters.status.text)) || 'All' }
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem onClick={() => setFilter('status', undefined)}>All</DropdownItem>
               {
-                statusValues.map(value => {
+                statusOptions.map(option => {
                   return (
-                    <DropdownItem key={value}
-                      onClick={() => setFilter('status', value)}>{ titleCase(value) }</DropdownItem>
+                    <DropdownItem key={option.value}
+                      onClick={() => setFilter('status', option)}>{ titleCase(option.text) }</DropdownItem>
                   )
                 })
               }
@@ -112,7 +112,7 @@ class Filters extends Component {
 
         <div className='flex-static'>
           <Button onClick={clearFilters}>
-            Clear Filters
+            <i className='fa fa-remove' /> Clear Filters
           </Button>
         </div>
       </div>

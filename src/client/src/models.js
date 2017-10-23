@@ -2,7 +2,7 @@
  * models.js
  */
 
-import { PROPERTIES } from './constants';
+import { SAMPLE_STATUS, PROPERTIES } from './constants';
 
 const { keys, values } = Object
 
@@ -46,7 +46,7 @@ export function filterSamples(samples, filters) {
       return false
 
     if (filters.status !== undefined
-        && PROPERTIES.status.selector(sample) !== filters.status)
+        && PROPERTIES.status.selector(sample) !== filters.status.value)
       return false
 
     return true
@@ -57,18 +57,18 @@ export function getSampleStatus(sample) {
   const steps = sample.data.pipeline.step
 
   if (steps.some(step => step.job.some(isRunning)))
-    return 'running'
+    return SAMPLE_STATUS.RUNNING
 
   if (steps.every(step => step.job.every(job => job.status === 'success')))
-    return 'success'
+    return SAMPLE_STATUS.SUCCESS
 
   if (steps.some(step => step.job.some(job => job.status === 'error')))
-    return 'error'
+    return SAMPLE_STATUS.ERROR
 
   if (steps.some(step => step.job.some(job => job.status === 'warning')))
-    return 'warning'
+    return SAMPLE_STATUS.WARNING
 
-  return 'undetermined'
+  return SAMPLE_STATUS.UNDETERMINED
 }
 
 function isRunning(job) {

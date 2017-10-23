@@ -109,7 +109,7 @@ body {
   display: inline-block !important;
 }
 
-.dropdown-toggle, .dropdown-item {
+.btn, .dropdown-toggle, .dropdown-item {
   cursor: pointer;
 }
 
