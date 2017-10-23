@@ -38,6 +38,7 @@ class Filters extends Component {
 
     const userValues     = uniq(samples.map(PROPERTIES.user.selector))
     const pipelineValues = uniq(samples.map(PROPERTIES.pipeline.selector))
+    const statusValues   = PROPERTIES.status.values
 
     return (
       <div className='d-flex'>
@@ -64,7 +65,6 @@ class Filters extends Component {
         </div>
 
         <span className='flex-static vertical-hr' />
-
         <div className='flex-static'>
           <span className='label'>User</span>
           <UncontrolledButtonDropdown className='dropdown--inline'>
@@ -86,6 +86,28 @@ class Filters extends Component {
           </UncontrolledButtonDropdown>
         </div>
 
+        <span className='flex-static vertical-hr' />
+        <div className='flex-static'>
+          <span className='label'>Status</span>
+          <UncontrolledButtonDropdown className='dropdown--inline'>
+            <DropdownToggle caret>
+              { titleCase(filters.status) || 'All' }
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={() => setFilter('status', undefined)}>All</DropdownItem>
+              {
+                statusValues.map(value => {
+                  return (
+                    <DropdownItem key={value}
+                      onClick={() => setFilter('status', value)}>{ titleCase(value) }</DropdownItem>
+                  )
+                })
+              }
+
+            </DropdownMenu>
+          </UncontrolledButtonDropdown>
+        </div>
+
         <div className='flex-fill' />
 
         <div className='flex-static'>
@@ -97,6 +119,12 @@ class Filters extends Component {
     )
   }
 
+}
+
+function titleCase(value) {
+  if (!value)
+    return ''
+  return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
 export default connect(
