@@ -7,16 +7,17 @@ const { query, selectOne, selectAll } = require('../database.js')
 
 module.exports = { insert, get, getAll }
 
-function insert(id, data) {
+function insert(id, user, data) {
   return query(`
-    INSERT INTO samples (id, data, created, modified)
-         VALUES         (@id, @data, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    INSERT INTO samples (id, "user", data, created, modified)
+         VALUES         (@id, @user, @data, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO
          UPDATE
             SET data = @data
+              , "user" = @user
               , modified = CURRENT_TIMESTAMP
           WHERE samples.id = @id;
-  `, { id, data })
+  `, { id, user, data })
 }
 
 function get(id) {

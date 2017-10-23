@@ -19,12 +19,13 @@ router.get('/', (req, res, next) => {
   .catch(errorHandler(res))
 })
 
-router.post('/', (req, res, next) => {
+router.post('/:user', (req, res, next) => {
+  const user = req.params.user
 
   const data = req.body
   const id   = req.body.sample_name
 
-  Samples.insert(id, data)
+  Samples.insert(id, user, data)
   .then(okHandler(res))
   .catch(errorHandler(res))
 })

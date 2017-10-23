@@ -6,9 +6,10 @@
  */
 
 CREATE TABLE samples (
-    id       varchar(60) primary key,
-    created  timestamp   not null,
-    modified timestamp   not null,
+    id       varchar(60)  primary key,
+    "user"   varchar(100) not null,
+    created  timestamp    not null,
+    modified timestamp    not null,
     data     jsonb
 );
 
