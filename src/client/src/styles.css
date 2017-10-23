@@ -170,6 +170,13 @@ body {
 .App__row {
   margin-bottom: 1em;
 }
+.App__row > * {
+  display: inline-block;
+  margin-right: 1em;
+}
+.App__row > *:first-child {
+  width: 400px;
+}
 
 
 /* <Samples/> */

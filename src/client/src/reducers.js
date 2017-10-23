@@ -3,15 +3,23 @@ import { prop } from 'ramda';
 import {
     REQUEST_SAMPLES
   , RECEIVE_SAMPLES
+  , SET_FILTER
   , SET_ORDER
+  , SET_ORDER_DIRECTION
 } from './actions';
 import { createDefaultUI, createDefaultSamples } from './models';
 
 
 function uiReducer(state = createDefaultUI(), action, data) {
   switch (action.type) {
+    case SET_FILTER: {
+      return { ...state, filters: { ...state.filters, [action.which]: action.value } }
+    }
     case SET_ORDER: {
-      return { ...state, ordering: action.property }
+      return { ...state, ordering: { ...state.ordering, property: action.property } }
+    }
+    case SET_ORDER_DIRECTION: {
+      return { ...state, ordering: { ...state.ordering, ascending: action.ascending } }
     }
     default:
       return state;

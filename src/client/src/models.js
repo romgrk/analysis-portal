@@ -9,7 +9,12 @@ const { keys, values } = Object
 
 export function createDefaultUI() {
   return {
-    ordering: keys(PROPERTIES)[0]
+    ordering: {
+      property: keys(PROPERTIES)[0],
+      ascending: true
+    },
+    filters: {
+    }
   }
 }
 export function createDefaultSamples() {
@@ -29,3 +34,13 @@ export function normalizeSamples(samples) {
   return samples
 }
 
+export function filterSamples(samples, filters) {
+  return samples.filter(sample => {
+
+    if (filters.pipeline !== undefined
+        && PROPERTIES.pipeline.selector(sample) !== filters.pipeline)
+      return false
+
+    return true
+  })
+}
