@@ -11,9 +11,7 @@ import {
 import { Row, Col, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import cx from 'classname';
 
-import { PROPERTIES } from '../constants.js';
 import humanReadableTime from '../helpers/humanReadableTime.js';
-import smartSort from '../helpers/smartSort.js';
 
 const { values } = Object
 
@@ -27,9 +25,7 @@ const Span = ({ children }) => (
 
 
 const mapStateToProps = state => ({
-    isLoading: state.samples.isLoading
-  , samples: state.samples.list
-  , selector: PROPERTIES[state.ui.ordering].selector
+  isLoading: state.samples.isLoading
 })
 const mapDispatchToProps = dispatch => ({
 })
@@ -47,6 +43,11 @@ class Samples extends Component {
       popoverTarget: document.body,
       popoverData: undefined
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.samples !== this.props.samples)
+      this.stepsToScrollIntoView = {}
   }
 
   componentDidUpdate() {
@@ -78,16 +79,13 @@ class Samples extends Component {
 
   render() {
 
-    const { samples, selector } = this.props
-
-    const sortedSamples = [...samples].sort((a, b) =>
-      smartSort(selector(a), selector(b)))
+    const { samples } = this.props
 
     return (
       <div className='Samples'>
 
         {
-          sortedSamples.map(sample => {
+          samples.map(sample => {
 
             const generalInformation = sample.data.pipeline.general_information
             const pipelineName = sample.data.pipeline.name
